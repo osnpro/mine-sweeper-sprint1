@@ -7,11 +7,21 @@ body {
 
 table {
     margin: 100px auto;
-    border: 1px solid lightgray;
+    border: 7px solid brown;
 }
 
 .cell {
     width: 40px;
     height: 40px;
-    font-size: 1.5em;
+    border: 1px solid brown;
+    text-align: center;
+    font-size: 24px;
+}
+
+h1 {
+    text-align: center;
+    color: orangered;
+    font-family: cursive, sans-serif;
+    font-size: 2.5em;
+    margin-bottom: 20px;
 }

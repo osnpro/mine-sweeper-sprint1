@@ -25,12 +25,14 @@ function buildBoard() {
 
 
         for (var j = 0; j < BOARD_SIZE; j++) {
-            board[i][j] = HIDDEN
-            
+            board[i][j] = {
+                isMine: false,
+                isShown: false
+            }
         }
     }
-    board[2][2] = MINE
-    board[3][3] = MINE
+    board[2][2].isMine = true
+    board[3][3].isMine = true
     console.table(board)
     return board
 
@@ -46,8 +48,9 @@ function renderBoard(board, selector) {
 
             const cell = board[i][j]
             const className = `cell cell-${i}-${j}`
+            const cellCont = cell.isShown ? (cell.isMine ? MINE : EMPTY) : '?'
 
-            strHTML += `<td class="${className}">${cell}</td>`
+            strHTML += `<td class="${className}"onclick="CellClicked(${i}, ${j})">${cellCont}</td>`
         }
         strHTML += '</tr>'
     }
@@ -56,4 +59,31 @@ function renderBoard(board, selector) {
     const elContainer = document.querySelector(selector)
     elContainer.innerHTML = strHTML
 }
+
+function CellClicked(i, j) {
+    const cell = gBoard[i][j]
+    if (cell.isShown) return
+    cell.isShown = true
+    if (cell.isMine) {
+        playSound()
+        gameOver()
+
+    }
+
+
+    renderBoard(gBoard, '#board')
+}
+
 restartGame()
+
+function playSound() {
+    const audio = new Audio('sound/pop.mp3')
+    audio.play()
+}
+
+function gameOver() {
+    const elContainer = document.querySelector('#game-message')
+    elContainer.innerText = 'Game  Over!'
+}
+
+

@@ -29,7 +29,18 @@ h1 {
 #game-message {
     font-size: 2em;
     color: darkblue;
-    margin-top: 5px;
+    margin-top: 15px;
     font-weight: 900;
     bottom: 50px;
+}
+
+button {
+    font-size: 1em;
+    background-color: rgb(226, 43, 131);
+    text-align: center;
+    color: rgb(34, 25, 101);
+    font-family: Arial, Helvetica, sans-serif;
+    border-radius: 10px;
+
+
 }

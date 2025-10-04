@@ -15,7 +15,13 @@ table {
     height: 40px;
     border: 1px solid brown;
     text-align: center;
+    color: rgb(11, 11, 78);
     font-size: 24px;
+    background-color: rgb(205, 44, 44);
+}
+
+.cell.revealed {
+    background-color: blueviolet;
 }
 
 h1 {

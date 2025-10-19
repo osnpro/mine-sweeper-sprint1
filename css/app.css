@@ -50,3 +50,30 @@ button {
 
 
 }
+
+#revealedCells-count {
+    font-size: 1em;
+    background-color: rgb(43, 107, 226);
+    text-align: center;
+    color: rgb(34, 25, 101);
+    font-family: Arial, Helvetica, sans-serif;
+    margin-top: 30px;
+}
+
+#markedCells-count {
+    font-size: 1em;
+    background-color: rgb(43, 107, 226);
+    text-align: center;
+    color: rgb(34, 25, 101);
+    font-family: Arial, Helvetica, sans-serif;
+    margin-top: 30px;
+}
+
+.label {
+    font-size: 1em;
+    background-color: rgb(43, 153, 226);
+    text-align: center;
+    color: rgb(34, 25, 101);
+    font-family: Arial, Helvetica, sans-serif;
+    margin-top: 30px;
+}

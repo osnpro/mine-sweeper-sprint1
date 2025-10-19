@@ -1,5 +1,4 @@
 'use strict'
-// cells tipe
 const MINE = '💣'
 const EMPTY = ' '
 
@@ -12,26 +11,14 @@ var gLevel = {
 
 var gGame = {
     isOn: false,
-}
-
-function onInit() {
-    restartGame()
-}
-
-function restartGame() {
-    gGame.isOn = true
-    gBoard = buildBoard()
-    setMinesNegsCount(gBoard)
-    renderBoard(gBoard, '#board')
+    revealedCount: 0,
 }
 
 function buildBoard() {
     var board = []
 
-
     for (var i = 0; i < gLevel.SIZE; i++) {
         board[i] = []
-
 
         for (var j = 0; j < gLevel.SIZE; j++) {
             board[i][j] = {
@@ -50,26 +37,8 @@ function buildBoard() {
 
 }
 
-function renderBoard(board, selector) {
-
-    var strHTML = '<table><tbody>'
-    for (var i = 0; i < board.length; i++) {
-
-        strHTML += '<tr>'
-        for (var j = 0; j < board[0].length; j++) {
-
-            const cell = board[i][j]
-            const className = `cell cell-${i}-${j} ${cell.isRevealed ? 'revealed' : ''}`
-            const cellCont = cell.isRevealed ? (cell.isMine ? MINE : (cell.minesAroundCount > 0 ? cell.minesAroundCount : EMPTY)) : ''
-
-            strHTML += `<td class="${className}"onclick="onCellClicked(${i}, ${j})">${cellCont}</td>`
-        }
-        strHTML += '</tr>'
-    }
-    strHTML += '</tbody></table>'
-
-    const elContainer = document.querySelector(selector)
-    elContainer.innerHTML = strHTML
+function onInit() {
+    restartGame()
 }
 
 function setMinesNegsCount(board) {
@@ -91,7 +60,6 @@ function setMinesNegsCount(board) {
             }
 
             board[i][j].minesAroundCount = count
-
         }
     }
 }
@@ -101,9 +69,11 @@ function expandReveal(board, i, j) {
     if (cell.isRevealed || cell.isMine) return
 
     cell.isRevealed = true
+    gGame.revealedCount++
+    updateRevealedCellsCount()
+    checkVictory()
 
     if (cell.minesAroundCount > 0) return
-
 
     for (var x = i - 1; x <= i + 1; x++) {
         if (x < 0 || x >= board.length) continue
@@ -115,7 +85,6 @@ function expandReveal(board, i, j) {
             expandReveal(board, x, y)
         }
     }
-
 }
 
 function onCellClicked(i, j) {
@@ -133,23 +102,17 @@ function onCellClicked(i, j) {
     }
     else {
         cell.isRevealed = true
-
+        gGame.revealedCount++
+        updateRevealedCellsCount()
+        checkVictory()
     }
-
     renderBoard(gBoard, '#board')
     return
-
 }
 
 function playSound() {
     const audio = new Audio('sound/pop.mp3')
     audio.play()
-}
-
-function gameOver() {
-    const elContainer = document.querySelector('#game-message')
-    elContainer.innerText = 'Game  Over!'
-    gGame.isOn = false
 }
 
 function level(size, mines) {
@@ -164,11 +127,15 @@ function randomMines(board) {
         var i = Math.floor(Math.random() * gLevel.SIZE)
         var j = Math.floor(Math.random() * gLevel.SIZE)
 
-
         if (!board[i][j].isMine) {
             board[i][j].isMine = true
             numOfMines++
         }
     }
-
 }
+
+function updateRevealedCellsCount() {
+    const elCount = document.getElementById('revealedCells-count')
+    elCount.innerText = gGame.revealedCount
+}
+
